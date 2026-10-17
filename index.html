@@ -447,11 +447,28 @@ search.addEventListener('keydown', event => {
 
     const result = await response.json();
 
-    const anime = (result.data || []).find(item =>
-      item.attributes.canonicalTitle?.toLowerCase() ===
-      animeTitle.toLowerCase()
-    ) || result.data?.[0];
+const items = result.data || [];
 
+const normalizeTitle = title =>
+  (title || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9а-яё]/gi, '');
+
+const wantedTitle = normalizeTitle(animeTitle);
+
+const anime = items.find(item => {
+  const a = item.attributes || {};
+  const titles = [
+    a.canonicalTitle,
+    a.titles?.en,
+    a.titles?.en_jp,
+    a.titles?.ja_jp
+  ];
+
+  return titles.some(title =>
+    normalizeTitle(title) === wantedTitle
+  );
+}) || items[0];
     const container = document.getElementById('animeDetails');
 
     if (!anime) {
