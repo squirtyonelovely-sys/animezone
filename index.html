@@ -81,7 +81,8 @@ async function loadAnime(){
 
   } catch (e) {
     status.textContent = 'Не удалось загрузить каталог. Попробуй ещё раз.';
-    console.error(e);
+    status.textContent = 'Ошибка: ' + e.name + ' — ' + e.message;
+console.error(e);
 
     const retry = document.createElement('button');
     retry.textContent = 'Попробовать снова';
