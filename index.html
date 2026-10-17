@@ -66,6 +66,28 @@ footer{text-align:center;padding:30px;color:#9b8cae}
   .details {
     grid-template-columns: 300px 1fr;
   }
+}.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 20px;
+}
+
+.genre-btn {
+  background: #191322;
+  color: #d8b4fe;
+  border: 1px solid #49345f;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.genre-btn:hover,
+.genre-btn.active {
+  background: #9333ea;
+  color: white;
+  border-color: #c084fc;
 }</style>
 </head>
 
@@ -79,6 +101,14 @@ footer{text-align:center;padding:30px;color:#9b8cae}
   <h1>Открой свой мир аниме</h1>
   <p class="sub">Ищи любимые тайтлы и открывай новые истории.</p>
   <input id="search" placeholder="🔎 Найти аниме..." autocomplete="off">
+  <div class="genres">
+  <button class="genre-btn active" data-genre="">Все</button>
+  <button class="genre-btn" data-genre="action">⚔️ Экшен</button>
+  <button class="genre-btn" data-genre="romance">❤️ Романтика</button>
+  <button class="genre-btn" data-genre="comedy">😂 Комедия</button>
+  <button class="genre-btn" data-genre="fantasy">🪄 Фэнтези</button>
+  <button class="genre-btn" data-genre="horror">👻 Ужасы</button>
+</div>
   <div id="status">Подключаемся к каталогу...</div>
   <div class="grid" id="catalog"></div>
 </main>
