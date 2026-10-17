@@ -536,5 +536,57 @@ if (new URLSearchParams(window.location.search).has('anime')) {
 }
 
 </script>
+  <div id="auth-box">
+  <h2>AnimeZone — аккаунт</h2>
+
+  <input id="auth-email" type="email" placeholder="Твоя почта">
+  <input id="auth-password" type="password" placeholder="Пароль">
+
+  <button onclick="registerUser()">Регистрация</button>
+  <button onclick="loginUser()">Войти</button>
+  <button onclick="logoutUser()">Выйти</button>
+
+  <p id="auth-message"></p>
+</div>
+
+<script>
+async function registerUser() {
+  const email = document.getElementById('auth-email').value;
+  const password = document.getElementById('auth-password').value;
+  const message = document.getElementById('auth-message');
+
+  const { error } = await supabaseClient.auth.signUp({
+    email,
+    password
+  });
+
+  message.textContent = error
+    ? error.message
+    : 'Регистрация отправлена! Проверь почту для подтверждения.';
+}
+
+async function loginUser() {
+  const email = document.getElementById('auth-email').value;
+  const password = document.getElementById('auth-password').value;
+  const message = document.getElementById('auth-message');
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  message.textContent = error
+    ? error.message
+    : 'Ты успешно вошёл в аккаунт!';
+}
+
+async function logoutUser() {
+  const { error } = await supabaseClient.auth.signOut();
+
+  document.getElementById('auth-message').textContent = error
+    ? error.message
+    : 'Ты вышел из аккаунта.';
+}
+</script>
 </body>
 </html>
