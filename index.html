@@ -102,11 +102,54 @@ function render() {
   const query = search.value.trim().toLowerCase();
 
   const filtered = animeList.filter(anime =>
-    anime.title.toLowerCase().includes(query) ||
-    anime.title_english.toLowerCase().includes(query)
+    (anime.title || '').toLowerCase().includes(query)
   );
 
   catalog.replaceChildren();
+
+  if (filtered.length === 0) {
+    status.textContent = animeList.length
+      ? 'Ничего не найдено.'
+      : 'Каталог пуст.';
+    return;
+  }
+
+  status.textContent = 'Найдено аниме: ' + filtered.length;
+
+  filtered.forEach(anime => {
+    const card = document.createElement('article');
+    card.className = 'card';
+
+    const img = document.createElement('img');
+    img.src = anime.image || '';
+    img.alt = anime.title;
+    img.loading = 'lazy';
+
+    const info = document.createElement('div');
+    info.className = 'info';
+
+    const title = document.createElement('h3');
+    title.textContent = anime.title;
+
+    const description = document.createElement('p');
+    description.textContent =
+      (anime.year || 'Год неизвестен') +
+      ' · Рейтинг: ' + (anime.score || '—');
+
+    const synopsis = document.createElement('p');
+    synopsis.textContent = anime.synopsis || 'Описание отсутствует';
+
+    const link = document.createElement('a');
+    link.href = anime.url || '#';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Подробнее';
+
+    info.append(title, description, synopsis, link);
+    card.append(img, info);
+    catalog.appendChild(card);
+  });
+}
 
   if (filtered.length === 0) {
     status.textContent = animeList.length
