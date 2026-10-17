@@ -565,7 +565,20 @@ player.style.display = 'flex';
 player.style.alignItems = 'center';
 player.style.justifyContent = 'center';
 player.style.color = '#c4b5fd';
-player.textContent = '🎬 Здесь будет видеоплеер';
+const video = document.createElement('iframe');
+
+video.width = '100%';
+video.height = '100%';
+video.src = 'https://www.youtube.com/embed/ScMzIvxBSi4';
+video.title = 'AnimeZone — видеоплеер';
+video.allow =
+  'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+video.allowFullscreen = true;
+video.style.border = 'none';
+video.style.borderRadius = '12px';
+
+player.textContent = '';
+player.appendChild(video);
 
 watchSection.append(watchTitle, watchMessage, episodeList, player);
 container.appendChild(watchSection);
