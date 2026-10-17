@@ -6,25 +6,134 @@
 <title>AnimeZone</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#0b0912;color:#fff;font-family:Arial,sans-serif}
-header{padding:22px 5%;background:#151020;border-bottom:1px solid #35234d}
-.logo{font-size:28px;font-weight:900;color:#c084fc}
-.logo span{color:white}
-header p,.sub{color:#b8a9ca}
-main{padding:25px 5%;max-width:1200px;margin:auto}
-h1{font-size:32px;margin-bottom:8px}
-input{width:100%;padding:15px;border-radius:12px;border:1px solid #49345f;background:#191322;color:white;font-size:16px;margin:20px 0}
-#status{color:#c4b5fd;margin:12px 0}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.card{background:#191322;border:1px solid #30223f;border-radius:14px;overflow:hidden}
-.card img{width:100%;aspect-ratio:3/4;object-fit:cover;background:#251b32}
-.info{padding:12px}
-.info h3{font-size:15px;margin:0 0 8px}
-.info p{font-size:12px;color:#c4b5fd;line-height:1.5}
-button,.more{display:inline-block;background:#9333ea;color:white;border:0;border-radius:9px;padding:10px 12px;margin-top:10px;font-weight:bold;text-decoration:none;cursor:pointer}
-footer{text-align:center;padding:30px;color:#9b8cae}
-@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}h1{font-size:42px}}
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #0b0912;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  padding: 22px 5%;
+  background: #151020;
+  border-bottom: 1px solid #35234d;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 900;
+  color: #c084fc;
+}
+
+.logo span { color: white; }
+
+header p, .sub { color: #b8a9ca; }
+
+main {
+  padding: 25px 5%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #49345f;
+  background: #191322;
+  color: white;
+  font-size: 16px;
+  margin: 20px 0;
+}
+
+#status {
+  color: #c4b5fd;
+  margin: 12px 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: #191322;
+  border: 1px solid #30223f;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: #251b32;
+}
+
+.info { padding: 12px; }
+
+.info h3 {
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+
+.info p {
+  font-size: 12px;
+  color: #c4b5fd;
+  line-height: 1.5;
+}
+
+button, .more {
+  display: inline-block;
+  background: #9333ea;
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 12px;
+  margin-top: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 20px;
+}
+
+.genre-btn {
+  background: #191322;
+  color: #d8b4fe;
+  border: 1px solid #49345f;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.genre-btn:hover,
+.genre-btn.active {
+  background: #9333ea;
+  color: white;
+  border-color: #c084fc;
+}
+
+.genre-btn:focus { outline: none; }
+
+.genre-btn:focus-visible {
+  outline: 2px solid #c084fc;
+  outline-offset: 3px;
+}
+
 .details {
   display: grid;
   grid-template-columns: 1fr;
@@ -62,33 +171,18 @@ footer{text-align:center;padding:30px;color:#9b8cae}
   margin-bottom: 20px;
 }
 
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #9b8cae;
+}
+
 @media (min-width: 650px) {
-  .details {
-    grid-template-columns: 300px 1fr;
-  }
-}.genres {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 10px 0 20px;
+  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  h1 { font-size: 42px; }
+  .details { grid-template-columns: 300px 1fr; }
 }
-
-.genre-btn {
-  background: #191322;
-  color: #d8b4fe;
-  border: 1px solid #49345f;
-  border-radius: 20px;
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.genre-btn:hover,
-.genre-btn.active {
-  background: #9333ea;
-  color: white;
-  border-color: #c084fc;
-}</style>
+</style>
 </head>
 
 <body>
@@ -97,68 +191,107 @@ footer{text-align:center;padding:30px;color:#9b8cae}
   <p>Твоя территория аниме</p>
 </header>
 
-<main>
+<main id="main">
   <h1>Открой свой мир аниме</h1>
   <p class="sub">Ищи любимые тайтлы и открывай новые истории.</p>
+
   <input id="search" placeholder="🔎 Найти аниме..." autocomplete="off">
+
   <div class="genres">
-  <button class="genre-btn active" data-genre="">Все</button>
-  <button class="genre-btn" data-genre="action">⚔️ Экшен</button>
-  <button class="genre-btn" data-genre="romance">❤️ Романтика</button>
-  <button class="genre-btn" data-genre="comedy">😂 Комедия</button>
-  <button class="genre-btn" data-genre="fantasy">🪄 Фэнтези</button>
-  <button class="genre-btn" data-genre="horror">👻 Ужасы</button>
-</div>
+    <button class="genre-btn active" data-genre="">Все</button>
+    <button class="genre-btn" data-genre="action">⚔️ Экшен</button>
+    <button class="genre-btn" data-genre="romance">❤️ Романтика</button>
+    <button class="genre-btn" data-genre="comedy">😂 Комедия</button>
+    <button class="genre-btn" data-genre="fantasy">🪄 Фэнтези</button>
+    <button class="genre-btn" data-genre="horror">👻 Ужасы</button>
+  </div>
+
   <div id="status">Подключаемся к каталогу...</div>
   <div class="grid" id="catalog"></div>
 </main>
 
 <footer>AnimeZone · Данные об аниме предоставляются Kitsu API.</footer>
-
 <script>
 const catalog = document.getElementById('catalog');
 const status = document.getElementById('status');
 const search = document.getElementById('search');
+const main = document.getElementById('main');
 
 let animeList = [];
 let selectedGenre = '';
+let searchTimer;
+let requestNumber = 0;
+
+const genreMap = {
+  action: 'action',
+  romance: 'romance',
+  comedy: 'comedy',
+  fantasy: 'fantasy',
+  horror: 'horror'
+};
+
+function mapAnime(item) {
+  const a = item.attributes || {};
+
+  return {
+    id: item.id,
+    title: a.canonicalTitle || 'Без названия',
+    image: a.posterImage?.large || a.posterImage?.medium || '',
+    score: a.averageRating
+      ? (Number(a.averageRating) / 10).toFixed(1)
+      : '—',
+    year: a.startDate ? a.startDate.slice(0, 4) : '—',
+    synopsis: a.synopsis || 'Описание отсутствует'
+  };
+}
 
 async function loadAnime() {
-  status.textContent = 'Загружаем каталог...';
-  try {
-    const response = await fetch(
-  'https://kitsu.io/api/edge/anime?sort=popularityRank&page%5Blimit%5D=5'
-);
+  const currentRequest = ++requestNumber;
 
-if (!response.ok) {
+  status.textContent = 'Загружаем каталог...';
+  catalog.replaceChildren();
+
+  try {
+    const apiUrl = new URL('https://kitsu.io/api/edge/anime');
+
+    apiUrl.searchParams.set('sort', 'popularityRank');
+    apiUrl.searchParams.set('page[limit]', '20');
+
+    if (selectedGenre) {
+      apiUrl.searchParams.set(
+        'filter[genres]',
+        genreMap[selectedGenre]
+      );
+    }
+
+    const query = search.value.trim();
+
+    if (query) {
+      apiUrl.searchParams.set('filter[text]', query);
+    }
+
+    const response = await fetch(apiUrl.toString());
+
+    if (!response.ok) {
       throw new Error('Ошибка сервера: ' + response.status);
     }
 
     const result = await response.json();
 
-    animeList = (result.data || []).map(item => {
-      const a = item.attributes || {};
+    if (currentRequest !== requestNumber) return;
 
-      return {
-        title: a.canonicalTitle || 'Без названия',
-        image: a.posterImage?.large || a.posterImage?.medium || '',
-        score: a.averageRating
-          ? (Number(a.averageRating) / 10).toFixed(1)
-          : '—',
-        year: a.startDate ? a.startDate.slice(0, 4) : '—',
-        synopsis: a.synopsis || 'Описание отсутствует',
-        url: 'https://kitsu.io/anime/' + item.id
-      };
-    });
-
+    animeList = (result.data || []).map(mapAnime);
     render();
+
   } catch (error) {
+    if (currentRequest !== requestNumber) return;
+
     console.error(error);
-    status.textContent = 'Не удалось загрузить каталог: ' + error.message;
+    status.textContent = 'Не удалось загрузить каталог. Попробуй ещё раз.';
 
     const retry = document.createElement('button');
     retry.textContent = 'Попробовать снова';
-    retry.onclick = loadAnime;
+    retry.addEventListener('click', loadAnime);
     status.appendChild(document.createElement('br'));
     status.appendChild(retry);
   }
@@ -176,7 +309,7 @@ function render() {
   if (filtered.length === 0) {
     status.textContent = animeList.length
       ? 'Ничего не найдено.'
-      : 'Каталог пока пуст.';
+      : 'В этом разделе пока ничего нет.';
     return;
   }
 
@@ -207,9 +340,9 @@ function render() {
       : anime.synopsis;
 
     const link = document.createElement('a');
-link.className = 'more';
-link.href = '?anime=' + encodeURIComponent(anime.title);
-link.textContent = 'Подробнее';
+    link.className = 'more';
+    link.href = '?anime=' + encodeURIComponent(anime.title);
+    link.textContent = 'Подробнее';
 
     info.append(title, description, synopsis, link);
     card.append(img, info);
@@ -217,59 +350,26 @@ link.textContent = 'Подробнее';
   });
 }
 
-search.addEventListener('input', () => {
-  render();
-});
+document.querySelectorAll('.genre-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.genre-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
 
-let searchTimer;
+    button.classList.add('active');
+    selectedGenre = button.dataset.genre;
+    search.value = '';
+
+    clearTimeout(searchTimer);
+    loadAnime();
+  });
+});
 
 search.addEventListener('input', () => {
   clearTimeout(searchTimer);
 
-  const query = search.value.trim();
-
-  if (!query) {
+  searchTimer = setTimeout(() => {
     loadAnime();
-    return;
-  }
-
-  searchTimer = setTimeout(async () => {
-    status.textContent = 'Ищем аниме...';
-
-    try {
-      const url =
-        'https://kitsu.io/api/edge/anime?filter[text]=' +
-        encodeURIComponent(query) +
-        '&page[limit]=20&sort=popularityRank';
-
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Ошибка сервера: ' + response.status);
-      }
-
-      const result = await response.json();
-
-      animeList = (result.data || []).map(item => {
-        const a = item.attributes || {};
-
-        return {
-          title: a.canonicalTitle || 'Без названия',
-          image: a.posterImage?.large || a.posterImage?.medium || '',
-          score: a.averageRating
-            ? (Number(a.averageRating) / 10).toFixed(1)
-            : '—',
-          year: a.startDate ? a.startDate.slice(0, 4) : '—',
-          synopsis: a.synopsis || 'Описание отсутствует',
-          url: 'https://kitsu.io/anime/' + item.id
-        };
-      });
-
-      render();
-    } catch (error) {
-      console.error(error);
-      status.textContent = 'Ошибка поиска. Попробуй ещё раз.';
-    }
   }, 400);
 });
 
@@ -280,23 +380,24 @@ search.addEventListener('keydown', event => {
     loadAnime();
     search.blur();
   }
-});async function openAnimePage() {
+});
+  async function openAnimePage() {
   const params = new URLSearchParams(window.location.search);
   const animeTitle = params.get('anime');
 
   if (!animeTitle) return;
 
-  document.querySelector('main').innerHTML = `
+  main.innerHTML = `
     <a class="back-button" href="./">← Назад в каталог</a>
     <div id="animeDetails">Загружаем информацию об аниме...</div>
   `;
 
   try {
-    const response = await fetch(
-      'https://kitsu.io/api/edge/anime?filter[text]=' +
-      encodeURIComponent(animeTitle) +
-      '&page[limit]=20'
-    );
+    const apiUrl = new URL('https://kitsu.io/api/edge/anime');
+    apiUrl.searchParams.set('filter[text]', animeTitle);
+    apiUrl.searchParams.set('page[limit]', '20');
+
+    const response = await fetch(apiUrl.toString());
 
     if (!response.ok) {
       throw new Error('Ошибка сервера: ' + response.status);
@@ -316,7 +417,7 @@ search.addEventListener('keydown', event => {
       return;
     }
 
-    const a = anime.attributes;
+    const a = anime.attributes || {};
 
     const details = document.createElement('div');
     details.className = 'details';
@@ -349,126 +450,7 @@ search.addEventListener('keydown', event => {
 
   } catch (error) {
     const container = document.getElementById('animeDetails');
-const genreMap = {
-  action: 'action',
-  romance: 'romance',
-  comedy: 'comedy',
-  fantasy: 'fantasy',
-  horror: 'horror'
-};
 
-document.querySelectorAll('.genre-btn').forEach(button => {
-  button.addEventListener('click', async () => {
-    document.querySelectorAll('.genre-btn').forEach(btn => {
-      btn.classList.remove('active');
-    });
-
-    button.classList.add('active');
-
-    selectedGenre = button.dataset.genre;
-    search.value = '';
-
-    if (!selectedGenre) {
-      loadAnime();
-      return;
-    }
-
-    status.textContent = 'Загружаем аниме по жанру...';
-    catalog.innerHTML = '';
-
-    try {
-      const apiUrl = new URL('https://kitsu.io/api/edge/anime');
-
-      apiUrl.searchParams.set('filter[genres]', genreMap[selectedGenre]);
-      apiUrl.searchParams.set('page[limit]', '20');
-      apiUrl.searchParams.set('sort', 'popularityRank');
-
-      const response = await fetch(apiUrl.toString());
-
-      if (!response.ok) {
-        throw new Error('Ошибка сервера: ' + response.status);
-      }
-
-      const result = await response.json();
-
-      animeList = (result.data || []).map(item => {
-        const a = item.attributes || {};
-
-        return {
-          title: a.canonicalTitle || 'Без названия',
-          image: a.posterImage?.large || a.posterImage?.medium || '',
-          score: a.averageRating
-            ? (Number(a.averageRating) / 10).toFixed(1)
-            : '—',
-          year: a.startDate ? a.startDate.slice(0, 4) : '—',
-          synopsis: a.synopsis || 'Описание отсутствует',
-          url: 'https://kitsu.io/anime/' + item.id
-        };
-      });
-
-      render();
-
-      if (animeList.length === 0) {
-        status.textContent = 'В этом жанре пока ничего не найдено.';
-      }
-    } catch (error) {
-      console.error(error);
-      status.textContent = 'Не удалось загрузить жанр. Попробуй ещё раз.';
-    }
-  });
-});
-document.querySelectorAll('.genre-btn').forEach(button => {
-  button.addEventListener('click', async () => {
-    document.querySelectorAll('.genre-btn').forEach(btn => {
-      btn.classList.remove('active');
-    });
-
-    button.classList.add('active');
-    selectedGenre = button.dataset.genre;
-
-    if (!selectedGenre) {
-      loadAnime();
-      return;
-    }
-
-    status.textContent = 'Загружаем аниме по жанру...';
-
-    try {
-      const response = await fetch(
-        'https://kitsu.io/api/edge/anime?filter[genres]=' +
-        encodeURIComponent(genreMap[selectedGenre]) +
-        '&page[limit]=20&sort=popularityRank'
-      );
-
-      if (!response.ok) {
-        throw new Error('Ошибка сервера: ' + response.status);
-      }
-
-      const result = await response.json();
-
-      animeList = (result.data || []).map(item => {
-        const a = item.attributes || {};
-
-        return {
-          title: a.canonicalTitle || 'Без названия',
-          image: a.posterImage?.large || a.posterImage?.medium || '',
-          score: a.averageRating
-            ? (Number(a.averageRating) / 10).toFixed(1)
-            : '—',
-          year: a.startDate ? a.startDate.slice(0, 4) : '—',
-          synopsis: a.synopsis || 'Описание отсутствует',
-          url: 'https://kitsu.io/anime/' + item.id
-        };
-      });
-
-      search.value = '';
-      render();
-    } catch (error) {
-      console.error(error);
-      status.textContent = 'Не удалось загрузить аниме этого жанра.';
-    }
-  });
-});
     if (container) {
       container.textContent =
         'Не удалось загрузить информацию. Попробуй обновить страницу.';
