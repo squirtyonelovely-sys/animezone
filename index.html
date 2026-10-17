@@ -386,7 +386,7 @@ favoriteBtn.addEventListener('click', () => {
 
   localStorage.setItem('animeFavorites', JSON.stringify(favorites));
 });
-    info.append(title, year, rating, synopsis);
+    info.append(title, description, synopsis, link, favoriteBtn);
     card.append(img, info);
     catalog.appendChild(card);
   });
@@ -503,7 +503,7 @@ const anime = items.find(item => {
     const synopsis = document.createElement('p');
     synopsis.textContent = a.synopsis || 'Описание пока отсутствует.';
 
-    info.append(title, description, synopsis, link, favoriteBtn);
+    info.append(title, year, rating, synopsis);
     details.append(poster, info);
     container.appendChild(details);
 
