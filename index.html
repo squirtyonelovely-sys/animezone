@@ -365,6 +365,66 @@ document.querySelectorAll('.genre-btn').forEach(button => {
     });
 
     button.classList.add('active');
+
+    selectedGenre = button.dataset.genre;
+    search.value = '';
+
+    if (!selectedGenre) {
+      loadAnime();
+      return;
+    }
+
+    status.textContent = 'Загружаем аниме по жанру...';
+    catalog.innerHTML = '';
+
+    try {
+      const apiUrl = new URL('https://kitsu.io/api/edge/anime');
+
+      apiUrl.searchParams.set('filter[genres]', genreMap[selectedGenre]);
+      apiUrl.searchParams.set('page[limit]', '20');
+      apiUrl.searchParams.set('sort', 'popularityRank');
+
+      const response = await fetch(apiUrl.toString());
+
+      if (!response.ok) {
+        throw new Error('Ошибка сервера: ' + response.status);
+      }
+
+      const result = await response.json();
+
+      animeList = (result.data || []).map(item => {
+        const a = item.attributes || {};
+
+        return {
+          title: a.canonicalTitle || 'Без названия',
+          image: a.posterImage?.large || a.posterImage?.medium || '',
+          score: a.averageRating
+            ? (Number(a.averageRating) / 10).toFixed(1)
+            : '—',
+          year: a.startDate ? a.startDate.slice(0, 4) : '—',
+          synopsis: a.synopsis || 'Описание отсутствует',
+          url: 'https://kitsu.io/anime/' + item.id
+        };
+      });
+
+      render();
+
+      if (animeList.length === 0) {
+        status.textContent = 'В этом жанре пока ничего не найдено.';
+      }
+    } catch (error) {
+      console.error(error);
+      status.textContent = 'Не удалось загрузить жанр. Попробуй ещё раз.';
+    }
+  });
+});
+document.querySelectorAll('.genre-btn').forEach(button => {
+  button.addEventListener('click', async () => {
+    document.querySelectorAll('.genre-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    button.classList.add('active');
     selectedGenre = button.dataset.genre;
 
     if (!selectedGenre) {
