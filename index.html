@@ -133,7 +133,24 @@ button, .more {
   outline: 2px solid #c084fc;
   outline-offset: 3px;
 }
+.favorite-btn {
+  display: block;
+  width: 100%;
+  background: #30223f;
+  color: #f0abfc;
+  border: 1px solid #49345f;
+  border-radius: 9px;
+  padding: 10px;
+  margin-top: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
+.favorite-btn.active {
+  background: #7e22ce;
+  color: white;
+  border-color: #c084fc;
+}
 .details {
   display: grid;
   grid-template-columns: 1fr;
@@ -218,6 +235,9 @@ const search = document.getElementById('search');
 const main = document.getElementById('main');
 
 let animeList = [];
+  let favorites = JSON.parse(
+  localStorage.getItem('animeFavorites') || '[]'
+);
 let selectedGenre = '';
 let searchTimer;
 let requestNumber = 0;
@@ -343,8 +363,30 @@ function render() {
     link.className = 'more';
     link.href = '?anime=' + encodeURIComponent(anime.title);
     link.textContent = 'Подробнее';
+const favoriteBtn = document.createElement('button');
+favoriteBtn.className = 'favorite-btn';
+favoriteBtn.textContent = '❤️ В избранное';
+    if (favorites.includes(String(anime.id))) {
+  favoriteBtn.classList.add('active');
+  favoriteBtn.textContent = '💜 В избранном';
+}
 
-    info.append(title, description, synopsis, link);
+favoriteBtn.addEventListener('click', () => {
+  const id = String(anime.id);
+
+  if (favorites.includes(id)) {
+    favorites = favorites.filter(favoriteId => favoriteId !== id);
+    favoriteBtn.classList.remove('active');
+    favoriteBtn.textContent = '❤️ В избранное';
+  } else {
+    favorites.push(id);
+    favoriteBtn.classList.add('active');
+    favoriteBtn.textContent = '💜 В избранном';
+  }
+
+  localStorage.setItem('animeFavorites', JSON.stringify(favorites));
+});
+    info.append(title, description, synopsis, link, favoriteBtn);
     card.append(img, info);
     catalog.appendChild(card);
   });
@@ -444,7 +486,7 @@ search.addEventListener('keydown', event => {
     const synopsis = document.createElement('p');
     synopsis.textContent = a.synopsis || 'Описание пока отсутствует.';
 
-    info.append(title, year, rating, synopsis);
+    info.append(title, description, synopsis, link, favoriteBtn);
     details.append(poster, info);
     container.appendChild(details);
 
