@@ -548,9 +548,15 @@ for (let i = 1; i <= 12; i++) {
   button.style.cursor = 'pointer';
 
   button.addEventListener('click', () => {
-    watchMessage.textContent =
-      `Ты выбрал(а) серию ${i}. Источник видео пока не подключён.`;
-  });
+  const video = player.querySelector('iframe');
+
+  if (video) {
+    video.src = 'https://www.youtube.com/embed/ScMzIvxBSi4';
+  }
+
+  watchMessage.textContent =
+    `Выбрана серия ${i}. Пока используется тестовое видео.`;
+});
 
   episodeList.appendChild(button);
 }
