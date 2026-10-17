@@ -252,8 +252,91 @@ search.addEventListener('keydown', event => {
     loadAnime();
     search.blur();
   }
-});
-loadAnime();
+});async function openAnimePage() {
+  const params = new URLSearchParams(window.location.search);
+  const animeTitle = params.get('anime');
+
+  if (!animeTitle) return;
+
+  document.querySelector('main').innerHTML = `
+    <a class="back-button" href="./">← Назад в каталог</a>
+    <div id="animeDetails">Загружаем информацию об аниме...</div>
+  `;
+
+  try {
+    const response = await fetch(
+      'https://kitsu.io/api/edge/anime?filter[text]=' +
+      encodeURIComponent(animeTitle) +
+      '&page[limit]=20'
+    );
+
+    if (!response.ok) {
+      throw new Error('Ошибка сервера: ' + response.status);
+    }
+
+    const result = await response.json();
+
+    const anime = (result.data || []).find(item =>
+      item.attributes.canonicalTitle?.toLowerCase() ===
+      animeTitle.toLowerCase()
+    ) || result.data?.[0];
+
+    const container = document.getElementById('animeDetails');
+
+    if (!anime) {
+      container.textContent = 'Аниме не найдено.';
+      return;
+    }
+
+    const a = anime.attributes;
+
+    const details = document.createElement('div');
+    details.className = 'details';
+
+    const poster = document.createElement('img');
+    poster.src = a.posterImage?.large || a.posterImage?.medium || '';
+    poster.alt = a.canonicalTitle || 'Постер аниме';
+
+    const info = document.createElement('div');
+
+    const title = document.createElement('h2');
+    title.textContent = a.canonicalTitle || 'Без названия';
+
+    const year = document.createElement('p');
+    year.textContent = 'Год выпуска: ' +
+      (a.startDate ? a.startDate.slice(0, 4) : 'Неизвестен');
+
+    const rating = document.createElement('p');
+    rating.textContent = 'Рейтинг: ' +
+      (a.averageRating
+        ? (Number(a.averageRating) / 10).toFixed(1) + '/10'
+        : 'Нет рейтинга');
+
+    const synopsis = document.createElement('p');
+    synopsis.textContent = a.synopsis || 'Описание пока отсутствует.';
+
+    info.append(title, year, rating, synopsis);
+    details.append(poster, info);
+    container.appendChild(details);
+
+  } catch (error) {
+    const container = document.getElementById('animeDetails');
+
+    if (container) {
+      container.textContent =
+        'Не удалось загрузить информацию. Попробуй обновить страницу.';
+    }
+
+    console.error(error);
+  }
+}
+
+if (new URLSearchParams(window.location.search).has('anime')) {
+  openAnimePage();
+} else {
+  loadAnime();
+}
+
 </script>
 </body>
 </html>
