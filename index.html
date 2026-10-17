@@ -514,8 +514,38 @@ const anime = items.find(item => {
     synopsis.textContent = a.synopsis || 'Описание пока отсутствует.';
 
     info.append(title, year, rating, synopsis);
-    details.append(poster, info);
-    container.appendChild(details);
+details.append(poster, info);
+container.appendChild(details);
+
+const watchSection = document.createElement('section');
+watchSection.style.marginTop = '30px';
+
+const watchTitle = document.createElement('h2');
+watchTitle.textContent = '📺 Смотреть онлайн';
+
+const watchMessage = document.createElement('p');
+watchMessage.textContent =
+  'Раздел просмотра готовится. Источник видео подключим следующим шагом.';
+
+watchMessage.style.color = '#c4b5fd';
+
+const episodeList = document.createElement('div');
+episodeList.id = 'episode-list';
+
+const player = document.createElement('div');
+player.id = 'anime-player';
+player.style.width = '100%';
+player.style.aspectRatio = '16 / 9';
+player.style.background = '#000';
+player.style.borderRadius = '12px';
+player.style.display = 'flex';
+player.style.alignItems = 'center';
+player.style.justifyContent = 'center';
+player.style.color = '#c4b5fd';
+player.textContent = '🎬 Здесь будет видеоплеер';
+
+watchSection.append(watchTitle, watchMessage, episodeList, player);
+container.appendChild(watchSection);
 
   } catch (error) {
     const container = document.getElementById('animeDetails');
