@@ -51,7 +51,7 @@ const search = document.getElementById('search');
 let animeList = [];
 
 async function loadAnime() {
-  status.textContent = 'Загружаем настоящие аниме...';
+  status.textContent = 'Загружаем каталог...';
 
   try {
     const response = await fetch(
@@ -59,7 +59,7 @@ async function loadAnime() {
     );
 
     if (!response.ok) {
-      throw new Error('Сервер ответил: ' + response.status);
+      throw new Error('Ошибка сервера: ' + response.status);
     }
 
     const result = await response.json();
@@ -69,23 +69,26 @@ async function loadAnime() {
 
       return {
         title: a.canonicalTitle || 'Без названия',
-        title_english: a.titles?.en || '',
-        year: a.startDate ? a.startDate.slice(0, 4) : '',
+        image: a.posterImage?.large || a.posterImage?.medium || '',
         score: a.averageRating
           ? (Number(a.averageRating) / 10).toFixed(1)
-          : '',
-        episodes: a.episodeCount,
-        synopsis: a.synopsis || '',
-        image: a.posterImage?.large || a.posterImage?.original || ''
+          : '—',
+        year: a.startDate ? a.startDate.slice(0, 4) : '—',
+        synopsis: a.synopsis || 'Описание отсутствует',
+        url: 'https://kitsu.io/anime/' + item.id
       };
     });
 
     render();
 
+    if (!animeList.length) {
+      status.textContent = 'Каталог пуст. Попробуй обновить страницу.';
+    }
   } catch (error) {
-    console.error('Ошибка загрузки AnimeZone:', error);
-    status.textContent =
-      'Не удалось загрузить каталог: ' + error.message + '.';
+    console.error('Ошибка загрузки каталога:', error);
+    status.textContent = 'Ошибка загрузки: ' + error.message;
+  }
+}
 
     const retry = document.createElement('button');
     retry.textContent = 'Попробовать снова';
