@@ -1,0 +1,2 @@
+# animezone
+AnimeZone — anime catalog
