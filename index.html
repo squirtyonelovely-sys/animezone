@@ -152,10 +152,63 @@ search.addEventListener('input', () => {
   render();
 });
 
+let searchTimer;
+
+search.addEventListener('input', () => {
+  clearTimeout(searchTimer);
+
+  const query = search.value.trim();
+
+  if (!query) {
+    loadAnime();
+    return;
+  }
+
+  searchTimer = setTimeout(async () => {
+    status.textContent = 'Ищем аниме...';
+
+    try {
+      const url =
+        'https://kitsu.io/api/edge/anime?filter[text]=' +
+        encodeURIComponent(query) +
+        '&page[limit]=20&sort=popularityRank';
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error('Ошибка сервера: ' + response.status);
+      }
+
+      const result = await response.json();
+
+      animeList = (result.data || []).map(item => {
+        const a = item.attributes || {};
+
+        return {
+          title: a.canonicalTitle || 'Без названия',
+          image: a.posterImage?.large || a.posterImage?.medium || '',
+          score: a.averageRating
+            ? (Number(a.averageRating) / 10).toFixed(1)
+            : '—',
+          year: a.startDate ? a.startDate.slice(0, 4) : '—',
+          synopsis: a.synopsis || 'Описание отсутствует',
+          url: 'https://kitsu.io/anime/' + item.id
+        };
+      });
+
+      render();
+    } catch (error) {
+      console.error(error);
+      status.textContent = 'Ошибка поиска. Попробуй ещё раз.';
+    }
+  }, 400);
+});
+
 search.addEventListener('keydown', event => {
   if (event.key === 'Escape') {
     search.value = '';
-    render();
+    clearTimeout(searchTimer);
+    loadAnime();
     search.blur();
   }
 });
