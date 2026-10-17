@@ -386,7 +386,7 @@ favoriteBtn.addEventListener('click', () => {
 
   localStorage.setItem('animeFavorites', JSON.stringify(favorites));
 });
-    info.append(title, description, synopsis, link, favoriteBtn);
+    info.append(title, year, rating, synopsis);
     card.append(img, info);
     catalog.appendChild(card);
   });
