@@ -177,11 +177,9 @@ function render() {
       : anime.synopsis;
 
     const link = document.createElement('a');
-    link.className = 'more';
-    link.href = anime.url;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.textContent = 'Подробнее';
+link.className = 'more';
+link.href = '?anime=' + encodeURIComponent(anime.title);
+link.textContent = 'Подробнее';
 
     info.append(title, description, synopsis, link);
     card.append(img, info);
