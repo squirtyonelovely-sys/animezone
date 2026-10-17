@@ -531,6 +531,29 @@ watchMessage.style.color = '#c4b5fd';
 
 const episodeList = document.createElement('div');
 episodeList.id = 'episode-list';
+    episodeList.style.display = 'flex';
+episodeList.style.flexWrap = 'wrap';
+episodeList.style.gap = '10px';
+episodeList.style.margin = '15px 0';
+
+for (let i = 1; i <= 12; i++) {
+  const button = document.createElement('button');
+
+  button.textContent = `Серия ${i}`;
+  button.style.padding = '10px 14px';
+  button.style.border = 'none';
+  button.style.borderRadius = '8px';
+  button.style.background = '#7c3aed';
+  button.style.color = '#fff';
+  button.style.cursor = 'pointer';
+
+  button.addEventListener('click', () => {
+    watchMessage.textContent =
+      `Ты выбрал(а) серию ${i}. Источник видео пока не подключён.`;
+  });
+
+  episodeList.appendChild(button);
+}
 
 const player = document.createElement('div');
 player.id = 'anime-player';
