@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://qxwfceyxnmcqbjktuihc.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_aY40-eF7jePQp_vkOle49g_3ySknNWt';
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
+  <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AnimeZone</title>
