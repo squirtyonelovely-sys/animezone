@@ -63,6 +63,11 @@ status.appendChild(retry);
 }
 }
 function render(){
+  if(animeList.length===0){
+status.textContent='Каталог пока не загрузился. Проверь подключение к API.';
+return;
+}
+
 const q=search.value.trim().toLowerCase();
 const filtered=animeList.filter(a=>(a.title||'').toLowerCase().includes(q)||(a.title_english||'').toLowerCase().includes(q));
 catalog.replaceChildren();
