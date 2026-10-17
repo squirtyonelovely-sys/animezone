@@ -564,16 +564,27 @@ for (const episode of episodes) {
   button.style.cursor = 'pointer';
 
   button.addEventListener('click', () => {
-  const video = player.querySelector('iframe');
+  const urls = {
+    1: 'https://ghoul-online.com/series/1-sezon-1-seriya/',
+    2: 'https://ghoul-online.com/series/1-sezon-2-seriya/',
+    3: 'https://ghoul-online.com/series/1-sezon-3-seriya/',
+    4: 'https://ghoul-online.com/series/1-sezon-4-seriya/',
+    5: 'https://ghoul-online.com/series/1-sezon-5-seriya/',
+    6: 'https://ghoul-online.com/series/1-sezon-6-seriya/',
+    7: 'https://ghoul-online.com/series/1-sezon-7-seriya/',
+    8: 'https://ghoul-online.com/series/1-sezon-8-seriya/',
+    9: 'https://ghoul-online.com/series/1-sezon-9-seriya/',
+    10: 'https://ghoul-online.com/series/1-sezon-10-seriya/',
+    11: 'https://ghoul-online.com/series/1-sezon-11-seriya/',
+    12: 'https://ghoul-online.com/series/1-sezon-12-seriya/'
+  };
 
-  if (video) {
-    video.src = `https://www.youtube.com/embed/${episode.videoId}`;
+  const url = urls[episode.number];
+
+  if (url) {
+    window.open(url, '_blank');
   }
-
-  watchMessage.textContent =
-    `Выбрана серия ${episode.number}.`;
 });
-
   episodeList.appendChild(button);
 }
 
