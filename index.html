@@ -121,6 +121,7 @@ const status = document.getElementById('status');
 const search = document.getElementById('search');
 
 let animeList = [];
+let selectedGenre = '';
 
 async function loadAnime() {
   status.textContent = 'Загружаем каталог...';
@@ -349,7 +350,66 @@ search.addEventListener('keydown', event => {
 
   } catch (error) {
     const container = document.getElementById('animeDetails');
+const genreMap = {
+  action: 'action',
+  romance: 'romance',
+  comedy: 'comedy',
+  fantasy: 'fantasy',
+  horror: 'horror'
+};
 
+document.querySelectorAll('.genre-btn').forEach(button => {
+  button.addEventListener('click', async () => {
+    document.querySelectorAll('.genre-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    button.classList.add('active');
+    selectedGenre = button.dataset.genre;
+
+    if (!selectedGenre) {
+      loadAnime();
+      return;
+    }
+
+    status.textContent = 'Загружаем аниме по жанру...';
+
+    try {
+      const response = await fetch(
+        'https://kitsu.io/api/edge/anime?filter[genres]=' +
+        encodeURIComponent(genreMap[selectedGenre]) +
+        '&page[limit]=20&sort=popularityRank'
+      );
+
+      if (!response.ok) {
+        throw new Error('Ошибка сервера: ' + response.status);
+      }
+
+      const result = await response.json();
+
+      animeList = (result.data || []).map(item => {
+        const a = item.attributes || {};
+
+        return {
+          title: a.canonicalTitle || 'Без названия',
+          image: a.posterImage?.large || a.posterImage?.medium || '',
+          score: a.averageRating
+            ? (Number(a.averageRating) / 10).toFixed(1)
+            : '—',
+          year: a.startDate ? a.startDate.slice(0, 4) : '—',
+          synopsis: a.synopsis || 'Описание отсутствует',
+          url: 'https://kitsu.io/anime/' + item.id
+        };
+      });
+
+      search.value = '';
+      render();
+    } catch (error) {
+      console.error(error);
+      status.textContent = 'Не удалось загрузить аниме этого жанра.';
+    }
+  });
+});
     if (container) {
       container.textContent =
         'Не удалось загрузить информацию. Попробуй обновить страницу.';
